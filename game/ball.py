@@ -22,8 +22,20 @@ class Ball:
             self.velocity_y *= -1
 
     def check_collision(self, player, ai):
-        if self.rect().colliderect(player.rect()) or self.rect().colliderect(ai.rect()):
+        ball_rect = self.rect()
+        player_rect = player.rect()
+        ai_rect = ai.rect()
+
+        # Player paddle collision
+        if ball_rect.colliderect(player_rect):
+            self.x = player_rect.right
             self.velocity_x *= -1
+
+        # AI paddle collision
+        elif ball_rect.colliderect(ai_rect):
+            self.x = ai_rect.left - self.width
+            self.velocity_x *= -1
+
 
     def reset(self):
         self.x = self.original_x
